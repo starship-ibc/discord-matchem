@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "matchem"
+version = "0.1.0"
+description = ""
+authors = ["Starship IBC <shrugs.rest0x@icloud.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+flake8 = "^4.0.1"
+pytest = "^7.1.1"
+isort = "^5.10.1"
+black = "^22.3.0"
+requests-mock = "^1.9.3"
+pytest-cov = "^3.0.0"
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+addopts = "--cov=matchem --cov-report html"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
