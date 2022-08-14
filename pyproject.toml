@@ -6,6 +6,8 @@ authors = ["Starship IBC <shrugs.rest0x@icloud.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+discord = "^1.7.3"
+Wand = "^0.6.9"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
