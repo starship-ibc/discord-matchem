@@ -1,7 +1,10 @@
-from venv import create
-from .card import create_cards
+import os
 
-cards = create_cards(4)
+import discord
 
-cards["combined_image"].save(filename="card.png")
-print(f"Match = {cards['match_info']}")
+from .game import Game
+
+discord_key = os.environ.get("DISCORD_KEY")
+
+game = Game(intents=discord.Intents.default())
+game.run(discord_key)

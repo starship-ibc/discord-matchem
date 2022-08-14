@@ -1,5 +1,6 @@
 .DS_Store
 *.sqlite
+card.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
