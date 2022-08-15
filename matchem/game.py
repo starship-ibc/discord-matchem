@@ -95,25 +95,29 @@ class Game(discord.Client):
             return
 
         # discord.PartialEmoji()
+        channel: discord.TextChannel = self.get_channel(payload.channel_id)
+        member: discord.Member = await self.guild.fetch_member(payload.user_id)
+        message = channel.get_partial_message(payload.message_id)
         correct_emoji = discord.PartialEmoji(name=self.match_card["emoji"])
         if payload.emoji != correct_emoji:
             print(f"{payload.user_id} put in timeout for {payload.emoji}")
             allowed_time = datetime.utcnow() + timedelta(seconds=5)
             self.losers[payload.user_id] = allowed_time
+            await message.remove_reaction(payload.emoji, member)
             return
 
         if (
             payload.user_id in self.losers
             and datetime.utcnow() <= self.losers[payload.user_id]
         ):
+            await message.remove_reaction(payload.emoji, member)
             print(f"User {payload.user_id} in timeout")
             return
 
         print(f"CORRECT GUESS! from {payload.user_id} ({payload.emoji})")
-        channel: discord.TextChannel = self.get_channel(payload.channel_id)
-        member: discord.Member = await self.guild.fetch_member(payload.user_id)
+        
 
-        message = channel.get_partial_message(payload.message_id)
+        
         await message.delete()
 
         await channel.send(f"Round {self.current_round} winner: {member.mention}!")
@@ -131,6 +135,6 @@ class Game(discord.Client):
             winner_count[key] += 1
 
         winner_str = "\n".join(
-            [f"{w}: {r}" for w, r in reversed(sorted(winner_count.items()))]
+            [f"{w}: {r}" for w, r in reversed(sorted(winner_count.items(), key=lambda x: x['']))]
         )
         await channel.send("Game finished. Congrats to the winners!\n\n" + winner_str)
